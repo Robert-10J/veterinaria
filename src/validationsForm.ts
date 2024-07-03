@@ -27,21 +27,21 @@ export const VALIDATION_FORM_PATIENT = {
   email: {
     required: 'El email del propietario es requerido',
     pattern: {
-      value: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g,
+      value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
       message: 'El email del propietario no es válido'
     }
   },
   date: {
     required: 'La fecha de registro es requerida',
     validate: {
-      isToday: (value: string) => value === todayString || "Date must be today",
-      notYesterdayOrTomorrow: (value: string) => {
+      //isToday: (value: string) => value === todayString || "Date must be today",
+      /* notYesterdayOrTomorrow: (value: string) => {
         const inputDate = new Date(value);
         const isNotYesterday = inputDate > new Date(today.setDate(today.getDate() - 1));
         const isNotTomorrow = inputDate < new Date(today.setDate(today.getDate() + 1));
         return isNotYesterday && isNotTomorrow || "Date must be today and not yesterday or tomorrow";
-      }
-    }
+      }*/
+    } 
   },
   symptoms: {
     required: 'Los sintomás son obligatorios',

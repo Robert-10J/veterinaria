@@ -1,14 +1,16 @@
 import { useForm } from 'react-hook-form'
 import { VALIDATION_FORM_PATIENT } from '../validationsForm'
 import Error from './Error'
-import { FieldValuesPatientForm } from '../types'
+import { DraftPatient } from '../types'
+import { usePatientStore } from '../store/store'
 
 const PatientForm = () => {
 
-  const { register, handleSubmit, formState: { errors } } = useForm<FieldValuesPatientForm>()
+  const { addPatient } = usePatientStore()
+  const { register, handleSubmit, formState: { errors } } = useForm<DraftPatient>()
 
-  const registerPatien = () => {
-    console.log(errors)
+  const registerPatien = (data: DraftPatient) => {
+    addPatient(data)
   }
 
   return (
@@ -36,7 +38,9 @@ const PatientForm = () => {
             placeholder="Nombre del Paciente"
             { ...register('name', VALIDATION_FORM_PATIENT.name) }
           />
-          { errors.name && <Error>{errors.name.message?.toString()}</Error> }
+          { errors.name && (
+            <Error>{errors.name.message}</Error> 
+          )}
         </div>
 
         <div className="mb-5">
@@ -50,7 +54,9 @@ const PatientForm = () => {
             placeholder="Nombre del Propietario"
             { ...register('caretaker', VALIDATION_FORM_PATIENT.caretaker) }
           />
-          { errors.caretaker && <Error>{errors.caretaker.message?.toString()}</Error> }
+          { errors.caretaker && (
+            <Error>{errors.caretaker.message}</Error> 
+          )}
         </div>
 
         <div className="mb-5">
@@ -64,7 +70,9 @@ const PatientForm = () => {
             placeholder="Email de Registro"
             { ...register('email', VALIDATION_FORM_PATIENT.email) }
           />
-          { errors.email && <Error>{errors.email.message?.toString()}</Error> }
+          { errors.email && (
+            <Error>{errors.email.message}</Error> 
+          )}
         </div>
 
         <div className="mb-5">
@@ -77,7 +85,9 @@ const PatientForm = () => {
             type="date"
             { ...register('date', VALIDATION_FORM_PATIENT.date) }
           />
-          { errors.date && <Error>{errors.date.message?.toString()}</Error> }
+          { errors.date && (
+            <Error>{errors.date.message}</Error> 
+          )}
         </div>
 
         <div className="mb-5">
@@ -90,7 +100,9 @@ const PatientForm = () => {
             placeholder="Síntomas del paciente"
             { ...register('symptoms', VALIDATION_FORM_PATIENT.symptoms) }
           ></textarea>
-          { errors.symptoms && <Error>{errors.symptoms.message?.toString()}</Error> }
+          { errors.symptoms && (
+            <Error>{errors.symptoms.message}</Error> 
+          )}
         </div>
 
         <input
