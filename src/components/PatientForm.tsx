@@ -1,7 +1,7 @@
-import { useForm } from "react-hook-form"
-import { VALIDATION_FORM_PATIENT } from "../validationsForm"
-import Error from "./Error"
-import { FieldValuesPatientForm } from "../types"
+import { useForm } from 'react-hook-form'
+import { VALIDATION_FORM_PATIENT } from '../validationsForm'
+import Error from './Error'
+import { FieldValuesPatientForm } from '../types'
 
 const PatientForm = () => {
 
