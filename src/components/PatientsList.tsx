@@ -1,17 +1,32 @@
 import { usePatientStore } from '../store/store'
-import PatientCard from './PatientCard'
+import PatientDetails from './PatientDetails'
 
 const PatientsList = () => {
  
   const patients = usePatientStore(state => state.patients) // Otra forma de acceder al state con zustand
 
   return (
-    <div className='md:w-1/2 lg:w-2/5 mx-5'>
-      { patients.map(patient => (
-        <div key={patient.id} className="p-5 rounded-md bg-gray-100 shadow-md">
-          <PatientCard patient={patient} />
-        </div>
-      ))}
+    <div className='md:w-1/2 lg:w-3/5 md:h-screen overflow-y-scroll'>
+      { patients.length ? (
+        <>
+          <h2 className='font-black text-3xl text-center'>Listado de Pacientes</h2>
+          <p className='text-xl mt-5 mb-10 text-center'>
+            Administra tus pacientes {''}
+            <span className='text-indigo-600 font-bold'>Pacientes y Citas</span>
+          </p>
+          { patients.map(patient => (
+            <PatientDetails key={patient.id} patient={patient} />
+          ))}
+        </>
+      ) : (
+        <>
+          <h2 className='font-black text-3xl text-center'>No hay pacientes</h2>
+          <p className='text-xl mt-5 mb-10 text-center'>
+            Comienza agregando pacientes {''}
+            <span className='text-indigo-600 font-bold'>y aparecerán en este lugar</span>
+          </p>
+        </>
+      )}
     </div>
   )
 }
