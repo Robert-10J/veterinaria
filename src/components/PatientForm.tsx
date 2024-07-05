@@ -4,10 +4,11 @@ import Error from './Error'
 import { DraftPatient } from '../types'
 import { usePatientStore } from '../store/store'
 import { useEffect } from 'react'
+import { toast } from 'react-toastify'
 
 const PatientForm = () => {
 
-  const { addPatient, activeId, patients } = usePatientStore()
+  const { addPatient, activeId, patients, updatePatient } = usePatientStore()
   const { register, handleSubmit, setValue, formState: { errors }, reset } = useForm<DraftPatient>()
 
   useEffect(() => {
@@ -22,10 +23,16 @@ const PatientForm = () => {
   }, [activeId])
 
   const registerPatien = (data: DraftPatient) => {
-    addPatient(data)
+    if (activeId) {
+      updatePatient(data)
+      toast.success('Paciente actualizado correctamente')
+    } else {
+      addPatient(data)
+      toast.success('Paciente registrado correctamente')
+    }
+
     reset()
   }
-
 
   return (
     <div className="md:w-1/2 lg:w-2/5 mx-5">
