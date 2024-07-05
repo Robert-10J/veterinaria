@@ -1,9 +1,9 @@
-import { usePatientStore } from '../store/store'
+import { Patient } from '../types'
 import PatientDetails from './PatientDetails'
 
 const PatientsList = () => {
- 
-  const patients = usePatientStore(state => state.patients) // Otra forma de acceder al state con zustand
+
+  const patients: Patient[] = []
 
   return (
     <div className='md:w-1/2 lg:w-3/5 md:h-screen overflow-y-scroll'>
