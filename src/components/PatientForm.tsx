@@ -3,16 +3,33 @@ import { VALIDATION_FORM_PATIENT } from '../validationsForm'
 import Error from './Error'
 import { DraftPatient } from '../types'
 import usePatients from '../hooks/usePatients'
+import { useEffect } from 'react'
 
 const PatientForm = () => {
 
-  const { addPatient, setPatient, patients } = usePatients()
+  const { addPatient, setPatient, updatePatient, patients, activeId } = usePatients()
 
-  const { register, handleSubmit, formState: { errors }, reset } = useForm<DraftPatient>()
+  const { register, handleSubmit, formState: { errors }, reset, setValue } = useForm<DraftPatient>()
+
+  useEffect(() => {
+    if (activeId) {
+      const activePatient = patients.filter(patient => patient.id === activeId)[0]
+      setValue('name', activePatient.name)
+      setValue('caretaker', activePatient.caretaker)
+      setValue('email', activePatient.email)
+      setValue('date', activePatient.date)
+      setValue('symptoms', activePatient.symptoms)
+    }
+  }, [activeId])
 
   const registerPatien = (data: DraftPatient) => {
-    const newPatient = addPatient(data)
-    setPatient([...patients, newPatient])
+    if (activeId) {
+      updatePatient(data)
+    } else {
+      const newPatient = addPatient(data)
+      setPatient([...patients, newPatient])
+    }
+
     reset()
   }
 

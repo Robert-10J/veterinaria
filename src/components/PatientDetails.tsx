@@ -1,11 +1,15 @@
-import { DraftPatient } from '../types'
+import usePatients from '../hooks/usePatients'
+import { Patient } from '../types'
 import PatientDetailsItem from './PatientDetailsItem'
 
 interface Props {
-  patient: DraftPatient
+  patient: Patient
 }
 
 const PatientDetails: React.FC<Props> = ({ patient }) => {
+
+  const { getPatientById, deletePatient } = usePatients()
+
   return (
     <div className="p-5 rounded-md bg-gray-100 shadow-lg m-10">
       <PatientDetailsItem label='Paciente' property={patient.name} />
@@ -16,6 +20,7 @@ const PatientDetails: React.FC<Props> = ({ patient }) => {
 
       <div className='md:w-full mt-5 flex flex-col lg:flex-row gap-3 justify-between'>
         <button
+          onClick={() => getPatientById(patient.id)}
           className='lg:w-1/4 w-full flex gap-3 items-center justify-center p-2 text-white bg-indigo-700 uppercase font-semibold rounded-md hover:bg-indigo-800 hover:cursor-pointer'
         >
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
@@ -25,6 +30,7 @@ const PatientDetails: React.FC<Props> = ({ patient }) => {
         </button>
 
         <button
+          onClick={() => deletePatient(patient.id)}
           className='lg:w-1/4 w-full flex gap-3 items-center justify-center p-2 text-white bg-red-600 uppercase font-semibold rounded-md hover:bg-red-700 hover:cursor-pointer'
         >
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
