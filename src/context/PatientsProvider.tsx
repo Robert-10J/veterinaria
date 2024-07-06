@@ -1,21 +1,30 @@
 import { createContext, useState } from 'react'
-import { Patient } from '../types'
+import { DraftPatient, Patient } from '../types'
 
 
 type PatientContextType = {
   patients: Patient[]
+  setPatient: React.Dispatch<React.SetStateAction<Patient[]>>
+  addPatient: (data: DraftPatient) => Patient
 }
 
 const PatientsContext = createContext({} as PatientContextType)
 
 const PatientsProvider = ({ children }: { children: React.ReactNode }) => {
   
-  const [patients, setPatients] = useState<Patient[]>([])
+  const [patients, setPatient] = useState<Patient[]>([])
+
+  const addPatient = (data: DraftPatient): Patient => {
+    const id = crypto.randomUUID()
+    return { ...data, id }
+  }
   
   return (
     <PatientsContext.Provider
       value={{
-        patients
+        patients,
+        addPatient,
+        setPatient,
       }}
     >
       {children}

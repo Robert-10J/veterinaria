@@ -2,13 +2,19 @@ import { useForm } from 'react-hook-form'
 import { VALIDATION_FORM_PATIENT } from '../validationsForm'
 import Error from './Error'
 import { DraftPatient } from '../types'
+import usePatients from '../hooks/usePatients'
 
 const PatientForm = () => {
 
-  const { register, handleSubmit, formState: { errors } } = useForm<DraftPatient>()
+  const { addPatient, setPatient, patients } = usePatients()
+
+  const { register, handleSubmit, formState: { errors }, reset } = useForm<DraftPatient>()
 
   const registerPatien = (data: DraftPatient) => {
-    // addPatient(data)
+    const newPatient = addPatient(data)
+    setPatient([...patients, newPatient])
+
+    reset()
   }
 
   return (

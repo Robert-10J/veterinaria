@@ -1,9 +1,9 @@
-import { Patient } from '../types'
+import usePatients from '../hooks/usePatients'
 import PatientDetails from './PatientDetails'
 
 const PatientsList = () => {
 
-  const patients: Patient[] = []
+  const { patients } = usePatients()
 
   return (
     <div className='md:w-1/2 lg:w-3/5 md:h-screen overflow-y-scroll'>
