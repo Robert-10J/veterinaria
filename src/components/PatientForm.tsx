@@ -13,7 +13,6 @@ const PatientForm = () => {
   const registerPatien = (data: DraftPatient) => {
     const newPatient = addPatient(data)
     setPatient([...patients, newPatient])
-
     reset()
   }
 
