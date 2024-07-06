@@ -1,4 +1,4 @@
-import { createContext, useState } from 'react'
+import { createContext, useEffect, useState } from 'react'
 import { DraftPatient, Patient } from '../types'
 import { toast } from 'react-toastify'
 
@@ -7,6 +7,7 @@ type PatientContextType = {
   activeId: Patient['id']
   setActiveId: React.Dispatch<React.SetStateAction<string>>
   setPatient: React.Dispatch<React.SetStateAction<Patient[]>>
+  savePatientsToLocalStorage: (data: Patient[]) => void
   addPatient: (data: DraftPatient) => Patient
   getPatientById: (id: Patient["id"]) => void
   deletePatient: (id: Patient["id"]) => void
@@ -20,10 +21,20 @@ const PatientsProvider = ({ children }: { children: React.ReactNode }) => {
   const [patients, setPatient] = useState<Patient[]>([])
   const [activeId, setActiveId] = useState<Patient['id']>('')
 
+  useEffect(() => {
+    const patientsToLocalStorage = localStorage.getItem('data-patients')
+    if (patientsToLocalStorage) {
+      setPatient(JSON.parse(patientsToLocalStorage))
+    }
+  }, [])
+
+  const savePatientsToLocalStorage = (data: Patient[]) => {
+    localStorage.setItem('data-patients', JSON.stringify(data))
+  }
+
   const addPatient = (data: DraftPatient): Patient => {
     const id = crypto.randomUUID()
     const datapatient = { ...data, id }
-    localStorage.setItem('patients-data', JSON.stringify(datapatient))
     toast.success('Paciente registrado correctamente')
     return datapatient
   }
@@ -33,14 +44,18 @@ const PatientsProvider = ({ children }: { children: React.ReactNode }) => {
   }
 
   const deletePatient = (id: Patient['id']) => {
-    const patientDelete = patients.filter(patient => patient.id !== id)
+    const getPatientsToLocalStorage = localStorage.getItem('data-patients')
+    const patientsStorage: Patient[] = JSON.parse(getPatientsToLocalStorage ?? '[]')
+    const patientDelete = patientsStorage.filter(patient => patient.id !== id)
     setPatient(patientDelete)
+    savePatientsToLocalStorage(patientDelete)
     toast.error('El paciente ha sido eliminado')
   }
 
   const updatePatient = (data: DraftPatient) => {
     const updatePatient = patients.map(patient => patient.id === activeId ? { id: activeId, ...data } : patient)
     setPatient(updatePatient)
+    savePatientsToLocalStorage(updatePatient)
     toast.success('El paciente ha sido actualizado correctamente')
     setActiveId('')
   }
@@ -52,6 +67,7 @@ const PatientsProvider = ({ children }: { children: React.ReactNode }) => {
         activeId,
         setPatient,
         setActiveId,
+        savePatientsToLocalStorage,
         addPatient,
         getPatientById,
         deletePatient,

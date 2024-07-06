@@ -7,7 +7,7 @@ import { useEffect } from 'react'
 
 const PatientForm = () => {
 
-  const { addPatient, setPatient, updatePatient, patients, activeId } = usePatients()
+  const { addPatient, setPatient, updatePatient, savePatientsToLocalStorage, patients, activeId } = usePatients()
 
   const { register, handleSubmit, formState: { errors }, reset, setValue } = useForm<DraftPatient>()
 
@@ -28,8 +28,8 @@ const PatientForm = () => {
     } else {
       const newPatient = addPatient(data)
       setPatient([...patients, newPatient])
+      savePatientsToLocalStorage([...patients, newPatient])
     }
-
     reset()
   }
 
